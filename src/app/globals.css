@@ -1,58 +1,117 @@
 @import "tailwindcss";
 
 /*
- * Design tokens. Components use the semantic Tailwind colors generated below
- * (bg-background, text-muted-foreground, border-border, bg-primary, ...) and
- * never raw palette values, so the theme can change in one place.
+ * Design tokens, taken from the Adviserz Figma file. Components use the
+ * semantic Tailwind colors generated below (text-foreground, bg-surface,
+ * border-border, ...) and never raw hex values, so the theme changes in one
+ * place. The design is light-only; there is no dark theme.
  */
 :root {
   --background: #ffffff;
-  --foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --border: #e2e8f0;
-  --primary: #0f766e;
+  --foreground: #343434;
+  --muted-foreground: #4f4f4f;
+  --subtle: #7b7b7b;
+  --surface: #f6f6f6;
+  --surface-subtle: #fafafa;
+  --quiet: #666666;
+  --border: #dfdfdf;
+  --divider: #e6e6e6;
+  --hairline: #e5e6e6;
+  --accent: #0e97f6;
+  --positive: #15aa26;
+  --negative: #e33629;
+  --primary: #115dee;
+  --primary-end: #0eb6fd;
   --primary-foreground: #ffffff;
   --destructive: #dc2626;
-  --ring: #0f766e;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0b1120;
-    --foreground: #e2e8f0;
-    --muted: #1e293b;
-    --muted-foreground: #94a3b8;
-    --border: #1e293b;
-    --primary: #2dd4bf;
-    --primary-foreground: #042f2e;
-    --destructive: #f87171;
-    --ring: #2dd4bf;
-  }
+  --ring: #115dee;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-subtle: var(--subtle);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-quiet: var(--quiet);
   --color-border: var(--border);
+  --color-divider: var(--divider);
+  --color-hairline: var(--hairline);
+  --color-accent: var(--accent);
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
   --color-primary: var(--primary);
+  --color-primary-end: var(--primary-end);
   --color-primary-foreground: var(--primary-foreground);
   --color-destructive: var(--destructive);
   --color-ring: var(--ring);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* Body text: Mulish. Headings, labels and buttons: Bricolage Grotesque. */
+  --font-sans: var(--font-mulish);
+  --font-display: var(--font-bricolage);
+  --font-display--font-variation-settings: "opsz" 14, "wdth" 100;
+  --font-logo: var(--font-inter);
+}
+
+/* Brand gradient used on primary buttons. */
+@utility bg-brand-gradient {
+  background-image: linear-gradient(
+    110deg,
+    var(--primary) 22.808%,
+    var(--primary-end) 146.11%
+  );
+}
+
+/* Faint brand tint behind a selected option or a badge. */
+@utility bg-brand-gradient-soft {
+  background-image: linear-gradient(
+    104deg,
+    color-mix(in srgb, var(--primary) 5%, transparent) 22.808%,
+    color-mix(in srgb, var(--primary-end) 5%, transparent) 146.11%
+  );
+}
+
+@utility bg-brand-gradient-badge {
+  background-image: linear-gradient(
+    98deg,
+    color-mix(in srgb, var(--primary) 10%, transparent) 22.808%,
+    color-mix(in srgb, var(--primary-end) 10%, transparent) 146.11%
+  );
+}
+
+/* Brand gradient clipped to text, used on links. */
+@utility text-brand-gradient {
+  background-image: linear-gradient(
+    128deg,
+    var(--primary) 22.808%,
+    var(--primary-end) 146.11%
+  );
+  background-clip: text;
+  color: transparent;
+  text-decoration-color: var(--primary);
 }
 
 @layer base {
   html {
-    color-scheme: light dark;
+    color-scheme: light;
   }
 
   body {
     background: var(--background);
     color: var(--foreground);
+  }
+
+  /*
+   * Browsers repaint autofilled inputs in their own colour (light blue in
+   * Chrome). Keep the design's surface colour and text colour instead.
+   */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px var(--surface) inset;
+    -webkit-text-fill-color: var(--foreground);
+    caret-color: var(--foreground);
   }
 
   :focus-visible {

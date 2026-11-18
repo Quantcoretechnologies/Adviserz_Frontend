@@ -38,14 +38,34 @@ Defined in `.env.example`, validated at startup by `src/config/env.ts` — the a
 
 ```
 src/
-  app/            Routes, layouts, error and not-found pages
-  config/         env.ts (validated env), site.ts (name, description, URL)
+  app/              Routes only. Pages are thin: metadata + one feature component
+    (auth)/         Login, signup, OTP and password-reset routes, sharing one layout
+  components/
+    ui/             Reusable, feature-agnostic building blocks (Button, TextField,
+                    PhoneField, OtpInput, Checkbox, SegmentedTabs, ...)
+    brand/          Logo
+  features/<name>/  Everything specific to one feature
+    api/            Endpoint calls and their request/response types
+    hooks/          TanStack Query hooks wrapping the api/ calls
+    schemas/        Zod validation for the feature forms
+    components/     Feature components, composed from components/ui
+    lib/            Feature state and helpers
+  hooks/            Reusable hooks (useCountdown)
+  providers/        App-wide client providers (TanStack Query)
+  config/           env.ts (validated env), site.ts
   lib/
-    api/          API client, ApiError, error codes shared with the backend
-    utils/        Small helpers (cn)
+    api/            API client, ApiError, error codes shared with the backend
+    query/          QueryClient setup and defaults
+    auth/           In-memory access-token session
+    storage/        Typed sessionStorage store
+    utils/          cn, formatters
 ```
 
-Add as the app grows: `src/components/ui` for shared UI primitives and `src/features/<name>` for feature code (components, hooks, API calls, schemas).
+Rules of thumb:
+
+- A component used by more than one feature lives in `components/ui` and is configured through props. Build it once; never copy it.
+- Components never call `fetch` or `api` directly. They use a hook from `features/<name>/hooks`, which uses TanStack Query.
+- Forms use React Hook Form with a Zod schema from `features/<name>/schemas`.
 
 ## Calling the API
 
