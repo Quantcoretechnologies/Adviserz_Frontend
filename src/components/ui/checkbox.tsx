@@ -16,9 +16,12 @@ interface CheckboxProps extends Omit<ComponentProps<"input">, "type"> {
 export function Checkbox({ id, children, error, ...props }: CheckboxProps) {
   return (
     <div className="flex flex-col gap-2">
+      {/* `relative` keeps the visually hidden input next to its label. Without
+          it the input is placed against the nearest positioned ancestor (for
+          example a dialog), and focusing it scrolls that ancestor instead. */}
       <label
         htmlFor={id}
-        className="flex cursor-pointer items-center gap-2 text-base font-semibold tracking-[-0.24px] text-foreground"
+        className="relative flex cursor-pointer items-center gap-2 text-base font-semibold tracking-[-0.24px] text-foreground"
       >
         <input
           id={id}

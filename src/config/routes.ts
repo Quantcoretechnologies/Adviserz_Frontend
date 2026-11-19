@@ -13,6 +13,18 @@ export const ROUTES = {
   onboarding: "/onboarding",
 } as const satisfies Record<string, Route>;
 
+/** The admin console (staff only). It has its own sign-in and session. */
+export const ADMIN_ROUTES = {
+  home: "/admin",
+  login: "/admin/login",
+  changePassword: "/admin/change-password",
+  staff: "/admin/staff",
+  roles: "/admin/roles",
+} as const satisfies Record<string, Route>;
+
+/** Every admin page except sign-in needs a staff session. */
+export const ADMIN_PREFIX = ADMIN_ROUTES.home;
+
 /** Pages for signed-out visitors; a signed-in user is sent away from them. */
 export const GUEST_ONLY_PREFIXES = [
   ROUTES.login,

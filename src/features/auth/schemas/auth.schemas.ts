@@ -18,7 +18,7 @@ const fullName = z
   .max(100, "Full name must be at most 100 characters")
   .regex(
     /^[A-Za-z][A-Za-z .'-]*$/,
-    `Full name may contain only letters, spaces, ".", "'" and "-"`,
+    "Full name may contain only letters, spaces, full stops, apostrophes and hyphens",
   );
 
 const newPassword = z

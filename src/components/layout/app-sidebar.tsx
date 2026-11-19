@@ -10,9 +10,7 @@ import { APP_NAV, type NavItem } from "@/config/navigation";
 import { ROUTES } from "@/config/routes";
 import type { ConnectedBroker } from "@/data/placeholder";
 import { cn } from "@/lib/utils/cn";
-
-const rowClassName =
-  "font-display flex h-10 w-full items-center gap-2 rounded-lg px-3 text-base leading-6 font-normal tracking-[-0.31px]";
+import { SidebarNavRow, sidebarRowClassName } from "./sidebar-nav-row";
 
 interface AppSidebarProps {
   brokers: ConnectedBroker[];
@@ -48,8 +46,12 @@ export function AppSidebar({
         <ul className="flex flex-col gap-4">
           {APP_NAV.map((item) => (
             <li key={item.label}>
-              <NavRow
-                item={item}
+              <SidebarNavRow
+                label={item.label}
+                icon={item.icon}
+                iconWidth={item.iconWidth}
+                iconHeight={item.iconHeight}
+                href={item.href}
                 active={!item.action && item.href === pathname}
                 badge={item.badge ? badges[item.badge] : 0}
               />
@@ -79,7 +81,7 @@ export function AppSidebar({
           {brokers.map((broker) => (
             <li
               key={broker.name}
-              className={cn(rowClassName, "text-foreground")}
+              className={cn(sidebarRowClassName, "text-foreground")}
             >
               <span className="flex size-6 shrink-0 items-center justify-center">
                 <Image src={broker.logo} alt="" width={17} height={18} />
@@ -92,61 +94,16 @@ export function AppSidebar({
         <SectionHeading>Recent Search</SectionHeading>
         <ul className="flex flex-col">
           {recentSearches.map((search) => (
-            <li key={search} className={cn(rowClassName, "text-foreground")}>
+            <li
+              key={search}
+              className={cn(sidebarRowClassName, "text-foreground")}
+            >
               <span className="truncate">{search}</span>
             </li>
           ))}
         </ul>
       </nav>
     </aside>
-  );
-}
-
-function NavRow({
-  item,
-  active,
-  badge,
-}: {
-  item: NavItem;
-  active: boolean;
-  badge: number;
-}) {
-  const content = (
-    <>
-      <MaskIcon
-        src={item.icon}
-        width={item.iconWidth}
-        height={item.iconHeight}
-      />
-      <span className="flex-1 truncate">{item.label}</span>
-      {badge > 0 ? (
-        <span className="rounded-md bg-brand-gradient-soft px-1.5 py-1 font-logo text-sm leading-none font-semibold text-accent">
-          {badge}
-        </span>
-      ) : null}
-    </>
-  );
-  const className = cn(
-    rowClassName,
-    active ? "bg-brand-gradient text-white" : "text-foreground",
-  );
-
-  // Screens that are not built yet are shown, as in the design, but are not links.
-  if (!item.href) {
-    return (
-      <span className={className} aria-disabled>
-        {content}
-      </span>
-    );
-  }
-  return (
-    <Link
-      href={item.href}
-      aria-current={active ? "page" : undefined}
-      className={className}
-    >
-      {content}
-    </Link>
   );
 }
 
