@@ -9,3 +9,10 @@
  */
 export const ACCESS_TOKEN_COOKIE = "adz_at";
 export const CSRF_COOKIE = "adz_csrf";
+
+/**
+ * The admin console has its own session in its own cookies, so a staff
+ * member can be signed in to the console and the customer app independently.
+ */
+export const ADMIN_ACCESS_TOKEN_COOKIE = "adz_admin_at";
+export const ADMIN_CSRF_COOKIE = "adz_admin_csrf";

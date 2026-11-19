@@ -9,6 +9,7 @@ import { FormAlert } from "@/components/ui/form-alert";
 import { LabeledDivider } from "@/components/ui/labeled-divider";
 import { PhoneField } from "@/components/ui/phone-field";
 import { SegmentedTabs } from "@/components/ui/segmented-tabs";
+import { PasswordField } from "@/components/ui/password-field";
 import { TextField } from "@/components/ui/text-field";
 import { TextLink } from "@/components/ui/text-link";
 import { getErrorMessage } from "@/lib/api";
@@ -136,10 +137,9 @@ function EmailLogin() {
         {...register("email")}
       />
       <div className="flex flex-col gap-3">
-        <TextField
+        <PasswordField
           id="login-password"
           label="Password"
-          type="password"
           autoComplete="current-password"
           placeholder="Enter your Password"
           error={errors.password?.message}

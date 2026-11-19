@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FormAlert } from "@/components/ui/form-alert";
-import { TextField } from "@/components/ui/text-field";
+import { PasswordField } from "@/components/ui/password-field";
 import { getErrorMessage } from "@/lib/api";
 import { AUTH_ROUTES } from "../constants";
 import { useResetPassword } from "../hooks/use-auth-mutations";
@@ -59,19 +59,17 @@ export function ResetPasswordForm() {
         title="Set a new password"
         description="Choose a new password for your account. You'll be signed out on all devices."
       />
-      <TextField
+      <PasswordField
         id="reset-new-password"
         label="New Password"
-        type="password"
         autoComplete="new-password"
         placeholder="Enter your New Password"
         error={errors.newPassword?.message}
         {...register("newPassword")}
       />
-      <TextField
+      <PasswordField
         id="reset-confirm-password"
         label="Confirm Password"
-        type="password"
         autoComplete="new-password"
         placeholder="Re-enter your New Password"
         error={errors.confirmPassword?.message}
