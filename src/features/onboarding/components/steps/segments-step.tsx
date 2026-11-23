@@ -56,7 +56,7 @@ export function SegmentsStep({ state, progress, onBack, onDone }: StepProps) {
             title={segment.name}
             description={
               segment.description ??
-              `Minimum capital ${formatInr(segment.minCapital)}`
+              `Minimum capital ${formatInr(segment.minCapital ?? "0")}`
             }
             selected={selected.includes(segment.id)}
             onSelect={() => toggle(segment.id)}

@@ -45,6 +45,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
   {
     label: "Segments",
     icon: "/icons/admin/segments.svg",
+    href: ADMIN_ROUTES.segments,
     anyOf: ["segments.view"],
   },
   {

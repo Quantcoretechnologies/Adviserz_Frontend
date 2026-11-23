@@ -24,7 +24,8 @@ interface SegmentValuesStepProps extends Omit<StepProps, "state"> {
   inputMode: "numeric" | "decimal";
   /** The value already saved for a row, or "" if none. */
   initialValue: (row: SegmentRow) => string;
-  hint: (row: SegmentRow) => string;
+  /** Guidance under a field; gets what is typed so far, so it can react to it. */
+  hint: (row: SegmentRow, value: string) => string;
   /** Returns a message when `value` is not acceptable for the row. */
   validate: (row: SegmentRow, value: string) => string | null;
   onSave: (
@@ -127,7 +128,7 @@ export function SegmentValuesStep({
                 });
                 setEdited(true);
               }}
-              hint={hint(row)}
+              hint={hint(row, (values[id] ?? "").trim())}
               error={localErrors[id] ?? serverErrors[id]}
             />
           );

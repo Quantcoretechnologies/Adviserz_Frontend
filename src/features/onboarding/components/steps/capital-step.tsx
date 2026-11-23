@@ -18,8 +18,8 @@ function validateCapital({ config }: SegmentRow, value: string): string | null {
     return "Enter a number with at most 2 decimal places";
   }
   if (Number(value) <= 0) return "Enter an amount greater than 0";
-  if (Number(value) < Number(config.minCapital)) {
-    return `Minimum for ${config.name} is ${formatInr(config.minCapital)}`;
+  if (Number(value) < Number(config.minCapital ?? "0")) {
+    return `Minimum for ${config.name} is ${formatInr(config.minCapital ?? "0")}`;
   }
   return null;
 }
@@ -44,8 +44,8 @@ export function CapitalStep({ state, progress, onBack, onDone }: StepProps) {
         draft.capital ? trimDecimal(draft.capital) : ""
       }
       hint={({ config }) =>
-        Number(config.minCapital) > 0
-          ? `Minimum ${formatInr(config.minCapital)}`
+        Number(config.minCapital ?? "0") > 0
+          ? `Minimum ${formatInr(config.minCapital ?? "0")}`
           : "Enter the amount in rupees"
       }
       validate={validateCapital}
