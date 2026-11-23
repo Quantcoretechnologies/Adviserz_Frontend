@@ -18,7 +18,8 @@ export interface AuthUser {
 }
 
 /** What the user must do before using the app; `null` when nothing is pending. */
-export type NextAction = "onboarding" | "policy_acceptance" | null;
+export type NextAction =
+  "onboarding" | "policy_acceptance" | "risk_notice" | null;
 
 /** Returned by every endpoint that signs a user in. */
 export interface SignedInResponse {
@@ -80,5 +81,7 @@ export interface CurrentUserResponse {
   requirements: {
     onboardingRequired: boolean;
     policyAcceptanceRequired: boolean;
+    /** Risk limits changed for the user's segments and the notice is not yet accepted. */
+    riskNoticeRequired: boolean;
   };
 }

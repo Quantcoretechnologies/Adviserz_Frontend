@@ -66,6 +66,13 @@ export const ErrorCode = {
   SEGMENT_NOT_AVAILABLE: "SEGMENT_NOT_AVAILABLE",
   CAPITAL_BELOW_MINIMUM: "CAPITAL_BELOW_MINIMUM",
   RISK_OUT_OF_RANGE: "RISK_OUT_OF_RANGE",
+  /** Risk above the suggested or maximum level needs its disclaimer accepted; `details[].disclaimer` is the text. */
+  RISK_ACKNOWLEDGEMENT_REQUIRED: "RISK_ACKNOWLEDGEMENT_REQUIRED",
+  RISK_DISCLAIMER_UNAVAILABLE: "RISK_DISCLAIMER_UNAVAILABLE",
+  /** Risk limits changed for the user's segments; the change notice must be accepted first. */
+  RISK_NOTICE_PENDING: "RISK_NOTICE_PENDING",
+  /** The notice changed again since it was loaded. */
+  RISK_NOTICE_OUTDATED: "RISK_NOTICE_OUTDATED",
   NO_CHANGES: "NO_CHANGES",
   POLICY_ACCEPTANCE_REQUIRED: "POLICY_ACCEPTANCE_REQUIRED",
   POLICY_VERSION_OUTDATED: "POLICY_VERSION_OUTDATED",

@@ -19,5 +19,7 @@ export const CONTACT_METHOD_OPTIONS = [
  * falls through to the home page for now.
  */
 export function postAuthRoute(nextAction: NextAction): Route {
-  return nextAction === "onboarding" ? ROUTES.onboarding : ROUTES.home;
+  if (nextAction === "onboarding") return ROUTES.onboarding;
+  if (nextAction === "risk_notice") return ROUTES.riskNotice;
+  return ROUTES.home;
 }

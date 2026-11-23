@@ -3,6 +3,11 @@ import type {
   VerifyOtpRequest,
 } from "@/features/auth/api/auth.types";
 import type { AuthUser } from "@/features/auth/api/auth.types";
+import type {
+  Acknowledgement,
+  RiskLevel,
+  RiskRules,
+} from "@/features/risk/api/risk.types";
 import { authedApi } from "@/lib/api";
 
 /** The steps the API tracks, in order. `confirm` is the final review. */
@@ -19,7 +24,11 @@ export type OnboardingStep =
 export type MarketExperience =
   "new" | "beginner" | "intermediate" | "experienced";
 
-/** A trading segment the user can choose, with the limits an admin has set. Decimals are strings. */
+/**
+ * A trading segment the user can choose, with the capital bands an admin has
+ * set: each band has a minimum, suggested and maximum risk %. Decimals are
+ * strings.
+ */
 export interface Segment {
   id: string;
   code: string;
@@ -27,10 +36,10 @@ export interface Segment {
   description: string | null;
   /** What the risk percentage is measured against. */
   riskBasis: "total_capital" | "daily_loss";
-  minCapital: string;
-  minRiskPercent: string;
-  maxRiskPercent: string;
+  /** The first band's capital; null only if no bands are set (such segments are not offered). */
+  minCapital: string | null;
   currency: string;
+  riskRules: RiskRules | null;
 }
 
 /** One chosen segment in the draft risk profile. */
@@ -75,8 +84,21 @@ export interface OnboardingState {
     segments: DraftSegment[];
     totalCapital: string | null;
   } | null;
+  /** Per chosen segment: do capital and risk fit the bands in force, and is any needed disclaimer accepted. */
+  segmentChecks: SegmentCheck[];
   availableSegments: Segment[];
   policies: OnboardingPolicy[];
+}
+
+export interface SegmentCheck {
+  segmentId: string;
+  capitalOk: boolean;
+  riskOk: boolean;
+  level: RiskLevel | null;
+  acknowledgementRequired: "above_suggested" | "above_maximum" | null;
+  /** True when no disclaimer is needed or the one needed was accepted for these exact values. */
+  acknowledged: boolean;
+  riskAmount: string | null;
 }
 
 export type ContactInput = { email: string } | { phone: string };
@@ -89,6 +111,8 @@ export interface CapitalAllocation {
 export interface RiskAllocation {
   segmentId: string;
   riskPercent: string;
+  /** Required when the risk is above the suggested level. */
+  acknowledgement?: Acknowledgement;
 }
 
 /** One problem the API found with a per-segment value. */

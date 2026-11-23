@@ -75,6 +75,7 @@ export const config = {
     "/signup/:path*",
     "/forgot-password/:path*",
     "/onboarding/:path*",
+    "/risk-notice/:path*",
     "/admin/:path*",
   ],
 };

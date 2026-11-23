@@ -15,22 +15,25 @@ import { AppTopbar } from "./app-topbar";
 
 /**
  * The frame around every screen of the signed-in app: sidebar, top bar and
- * the page. It also keeps out users who have not finished onboarding.
+ * the page. It also keeps out users who have not finished onboarding, and
+ * users who still have to accept a change to their risk limits.
  */
 export function AppShell({ children }: { children: ReactNode }) {
   const router = useRouter();
   const { data } = useCurrentUser();
 
   const mustOnboard = data?.requirements.onboardingRequired === true;
+  const mustReviewRisk = data?.requirements.riskNoticeRequired === true;
   useEffect(() => {
     if (mustOnboard) router.replace(ROUTES.onboarding);
-  }, [mustOnboard, router]);
+    else if (mustReviewRisk) router.replace(ROUTES.riskNotice);
+  }, [mustOnboard, mustReviewRisk, router]);
 
   // Until we know who the user is and that they may be here, the shell is
   // kept invisible so the app never flashes for someone about to be
   // redirected. The page is still rendered underneath: Next.js prerenders
   // and prefetches it, so it must always be part of the tree.
-  const ready = data !== undefined && !mustOnboard;
+  const ready = data !== undefined && !mustOnboard && !mustReviewRisk;
 
   return (
     <div

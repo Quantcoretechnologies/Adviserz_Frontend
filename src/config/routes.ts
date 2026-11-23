@@ -11,6 +11,7 @@ export const ROUTES = {
   forgotPasswordVerify: "/forgot-password/verify",
   forgotPasswordReset: "/forgot-password/reset",
   onboarding: "/onboarding",
+  riskNotice: "/risk-notice",
 } as const satisfies Record<string, Route>;
 
 /** The admin console (staff only). It has its own sign-in and session. */
@@ -20,6 +21,7 @@ export const ADMIN_ROUTES = {
   changePassword: "/admin/change-password",
   staff: "/admin/staff",
   roles: "/admin/roles",
+  segments: "/admin/segments",
 } as const satisfies Record<string, Route>;
 
 /** Every admin page except sign-in needs a staff session. */
@@ -33,7 +35,11 @@ export const GUEST_ONLY_PREFIXES = [
 ] as const;
 
 /** Pages that need a session; a signed-out visitor is sent to the login page. */
-export const PROTECTED_PREFIXES = [ROUTES.home, ROUTES.onboarding] as const;
+export const PROTECTED_PREFIXES = [
+  ROUTES.home,
+  ROUTES.onboarding,
+  ROUTES.riskNotice,
+] as const;
 
 export function matchesPrefix(
   pathname: string,
