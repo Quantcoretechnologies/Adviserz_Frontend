@@ -9,6 +9,7 @@ import {
   PLACEHOLDER_RECENT_SEARCHES,
 } from "@/data/placeholder";
 import { useCurrentUser } from "@/features/auth/hooks/use-session";
+import { useLiveUpdates } from "@/features/notifications/hooks/use-live-updates";
 import { cn } from "@/lib/utils/cn";
 import { AppSidebar } from "./app-sidebar";
 import { AppTopbar } from "./app-topbar";
@@ -34,6 +35,10 @@ export function AppShell({ children }: { children: ReactNode }) {
   // redirected. The page is still rendered underneath: Next.js prerenders
   // and prefetches it, so it must always be part of the tree.
   const ready = data !== undefined && !mustOnboard && !mustReviewRisk;
+
+  // Live updates while the app is in use. A risk-limit change refreshes the
+  // user, which makes the effect above move them to the risk notice.
+  useLiveUpdates(ready);
 
   return (
     <div

@@ -19,6 +19,19 @@ export function trimDecimal(value: string): string {
   return value.includes(".") ? value.replace(/\.?0+$/, "") : value;
 }
 
+const dateTimeFormat = new Intl.DateTimeFormat("en-IN", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+});
+
+/** "2026-11-25T10:51:38.505Z" -> "25 Nov 2026, 4:21 pm" (in the browser's time zone). */
+export function formatDateTime(iso: string): string {
+  return dateTimeFormat.format(new Date(iso));
+}
+
 /** 90 -> "01:30" */
 export function formatClock(totalSeconds: number): string {
   const minutes = Math.floor(totalSeconds / 60);
