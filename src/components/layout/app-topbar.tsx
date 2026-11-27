@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import type { AuthUser } from "@/features/auth/api/auth.types";
 import { useLogout } from "@/features/auth/hooks/use-session";
+import { NotificationBell } from "@/features/notifications/components/notification-bell";
 import { formatIndianPhone } from "@/lib/utils/format";
 import { UserMenu } from "./user-menu";
 
@@ -18,13 +18,7 @@ export function AppTopbar({ user }: { user: AuthUser }) {
 
   return (
     <header className="flex w-full items-center justify-end gap-6 border-b border-hairline bg-background px-6 py-5">
-      <button
-        type="button"
-        aria-label="Notifications"
-        className="cursor-pointer rounded-xl p-2.5"
-      >
-        <Image src="/icons/app/bell.svg" alt="" width={24} height={24} />
-      </button>
+      <NotificationBell />
 
       <UserMenu
         name={user.fullName}
